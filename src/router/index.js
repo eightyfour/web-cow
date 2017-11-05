@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Cow from '../components/Cow.vue'
-import SelectedCow from '../components/SelectCow.vue'
 
 Vue.use(Router);
 
