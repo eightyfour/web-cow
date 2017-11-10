@@ -1,5 +1,5 @@
 <template>
-    <div class="flowerMenu">
+    <div ref="root" class="flowerMenu">
       <button v-show="!active" v-on:click="open">{{ selectedCow }}</button>
       <div ref="menu" class="menu" :class="active? 'show' : ''">
         <div ref="animate" class="menu--item-wrap">
@@ -11,7 +11,7 @@
 
 <script>
 
-  import { show, reset } from '../lib/navSun';
+  import { show, hide } from '../lib/navSun';
 
     const cowsToSelect = ['random', 'HEAD_IN', 'BUD_FROGS', 'SQUIRREL', 'BUNNY', 'COWER', 'ELEPHANT', 'KOALA', 'SHEEP', 'SMALL', 'STEGOSAURUS', 'SURGERY', 'TELEBEARS', 'TUX', 'WHALE', 'WWW'];
 
@@ -22,8 +22,23 @@
                 this.selectedCow = (to.params.cow && to.params.cow !== 'random') ? to.params.cow.toUpperCase() : 'random';
             }
         },
+        /**
+         * Called if component is created
+         */
         created() {
-             this.selectedCow = this.$route.params.cow || 'random'
+            this.selectedCow = this.$route.params.cow || 'random'
+        },
+        /**
+         * Triggered after template is rendered
+         */
+        mounted() {
+            window.addEventListener('click', (e) => {
+                this.active = false
+                hide(this.$refs.animate)
+            })
+            this.$refs.root.addEventListener('click', function (e) {
+                e.stopPropagation();
+            })
         },
         data () {
             return {
@@ -40,7 +55,7 @@
             cowChange (cow) {
               this.active = false;
               this.$router.push({ path: `/${cow}`});
-              reset(this.$refs.animate)
+              hide(this.$refs.animate)
             }
         }
     }
@@ -68,11 +83,11 @@
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
-    background-color: rgba(250, 250, 250, 0.5);
+    background-color: rgba(255, 255, 255, 0.9);
 
   }
   .show.menu{
-    box-shadow: 0 0 4em 15em rgba(250, 250, 250, 0.9);
+    box-shadow: 0 0 4em 15em rgba(255, 255, 255, 0.9);
     transition: opacity 0ms 0ms, box-shadow 500ms;
     opacity: 1;
   }

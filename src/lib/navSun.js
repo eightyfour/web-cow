@@ -46,7 +46,7 @@ export function show (node) {
     blossom(node);
 }
 
-export function reset (node) {
+export function hide (node) {
     const children = [].slice.call(node.children);
     children.forEach((child) => {
         child.style.top = '';
