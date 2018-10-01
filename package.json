@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build:lib": "vue-cli-service build --name webCow --target lib src/index.js",
+    "build:web": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
