@@ -1,28 +1,71 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <section class="cow">
+      <cow :mode="mode"></cow>
+    </section>
+    <select-cow></select-cow>
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import Vue from "vue"
+import SelectCow from "./components/SelectCowFlowerMenu.vue"
+import Cow from "./components/Cow.vue"
+
+Vue.component("select-cow", SelectCow)
 
 export default {
   name: "app",
   components: {
-    HelloWorld
+    Cow
+  },
+  watch: {
+    $route(to, from) {
+      const selectedCow =
+        to.params.cow && to.params.cow !== "random"
+          ? to.params.cow.toUpperCase()
+          : "random"
+      this.mode = selectedCow
+    }
+  },
+  mounted() {
+    this.mode = this.$route.params.cow || "random"
+  },
+  data() {
+    return {
+      mode: "random"
+    }
   }
-};
+}
 </script>
 
-<style lang="less">
+<style>
+* {
+  box-sizing: border-box;
+}
+body {
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 150%;
+  user-select: none;
+}
+.cow {
+  cursor: pointer;
+  margin: auto;
+  max-width: 60%;
 }
 </style>
