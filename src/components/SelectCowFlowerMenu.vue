@@ -73,7 +73,7 @@ export default {
     },
     cowChange(cow) {
       this.active = false
-      this.$router.push({ path: `/${cow}` })
+      this.$emit('selected', cow)
       hide(this.$refs.animate)
     }
   }
