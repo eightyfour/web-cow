@@ -1,20 +1,26 @@
 {
-  "name": "web-cow",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@eightyfour84/web-cow",
+  "version": "0.1.2",
+  "author": "eightyfour",
+  "description": "Vue component with a motivating web cow and a menu to choose different charachters.",
+  "main": "dist/webCow.common.js",
+  "license": "ISC",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build:lib": "vue-cli-service build --name webCow --target lib src/index.js",
     "build:web": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
-  "dependencies": {
+  "files": [
+    "dist/*"
+  ],
+  "dependencies": {},
+  "devDependencies": {
     "cowsay": "^1.3.1",
     "motivation": "^1.0.3",
     "vue": "^2.5.17",
-    "vue-router": "^3.0.1"
-  },
-  "devDependencies": {
+    "vue-global-events": "^1.0.3",
+    "vue-router": "^3.0.1",
     "@vue/cli-plugin-babel": "^3.0.3",
     "@vue/cli-plugin-eslint": "^3.0.3",
     "@vue/cli-service": "^3.0.3",
@@ -46,5 +52,9 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eightyfour/web-cow.git"
+  }
 }
