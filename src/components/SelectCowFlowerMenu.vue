@@ -1,6 +1,7 @@
 <template>
   <div ref="root" class="flowerMenu">
-    <button v-show="!active" v-on:click="open">{{ selectedCow }}</button>
+    <global-events @click="closeMenu" />
+    <button v-show="!active" v-on:click="open">{{ label || 'choose' }}</button>
     <div ref="menu" class="menu" :class="active? 'show' : ''">
       <div ref="animate" class="menu--item-wrap">
         <div v-for="cow in cowsToSelect" v-on:click="cowChange(cow)" :key="cow" class="menu--item"><span>{{ cow }}</span></div>
@@ -11,6 +12,7 @@
 
 <script>
 import { show, hide } from "../lib/navSun"
+import GlobalEvents from "vue-global-events"
 
 const cowsToSelect = [
   "random",
@@ -33,28 +35,15 @@ const cowsToSelect = [
 
 export default {
   name: "cow",
-  watch: {
-    $route(to, from) {
-      this.selectedCow =
-        to.params.cow && to.params.cow !== "random"
-          ? to.params.cow.toUpperCase()
-          : "random"
-    }
+  components: {
+    GlobalEvents
   },
-  /**
-   * Called if component is created
-   */
-  created() {
-    this.selectedCow = this.$route.params.cow || "random"
-  },
+  props: ["label"],
   /**
    * Triggered after template is rendered
    */
   mounted() {
-    window.addEventListener("click", e => {
-      this.active = false
-      hide(this.$refs.animate)
-    })
+    // stop propagation otherwise the click button doesn't count
     this.$refs.root.addEventListener("click", function(e) {
       e.stopPropagation()
     })
@@ -62,18 +51,21 @@ export default {
   data() {
     return {
       active: false,
-      selectedCow: "",
       cowsToSelect
     }
   },
   methods: {
+    closeMenu() {
+      hide(this.$refs.animate)
+      this.active = false
+    },
     open() {
       this.active = true
       show(this.$refs.animate)
     },
     cowChange(cow) {
       this.active = false
-      this.$emit('selected', cow)
+      this.$emit("selected", cow)
       hide(this.$refs.animate)
     }
   }
