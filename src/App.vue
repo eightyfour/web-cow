@@ -3,12 +3,11 @@
     <section class="cow">
       <cow :mode="mode"></cow>
     </section>
-    <select-cow @selected="cowChange"></select-cow>
+    <select-cow :label="mode" @selected="cowChange"></select-cow>
   </div>
 </template>
 
 <script>
-import Vue from "vue"
 import SelectCow from "./components/SelectCowFlowerMenu.vue"
 import Cow from "./components/Cow.vue"
 
@@ -19,7 +18,7 @@ export default {
     SelectCow
   },
   watch: {
-    $route(to, from) {
+    $route(to) {
       const selectedCow =
         to.params.cow && to.params.cow !== "random"
           ? to.params.cow.toUpperCase()

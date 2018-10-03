@@ -27,9 +27,8 @@ import {
 
 const quotes = require("motivation/lib/quotes")
 
-const eyes = ["-0", "oo", "/\\", "Oo", "XX", "xx"]
-const tonges = ["  ", "U ", ";;", "  ", "  ", "  "]
-let selectedCow
+// const eyes = ["-0", "oo", "/\\", "Oo", "XX", "xx"]
+// const tonges = ["  ", "U ", ";;", "  ", "  ", "  "]
 
 function getRandom(a) {
   return a[Math.floor(Math.random() * a.length - 1 + 0)]
@@ -79,8 +78,6 @@ export default {
     motivate() {
       const cowMotivation = getRandom(quotes)
       this.cowMotivationMsg = cowMotivation.text
-      console.log("this.$props.mode", this.$props.mode)
-
       this.cowSays = say({
         text: this.cowMotivationMsg,
         cow:

@@ -1,12 +1,14 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue"
+import Router from "vue-router"
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
-    routes: [{
-        path: '/:cow?',
-        name: 'cow',
-        props: true
-    }]
+  routes: [
+    {
+      path: "/:cow?",
+      name: "cow",
+      props: true
+    }
+  ]
 })
