@@ -20,7 +20,7 @@ jobs:
 
       - name: 📦 Install dependencies & build (optional)
         run: |
-          npm ci --verbose
+          npm ci
           npm run build
           
       - name: 📤 Copy dist files to server
@@ -30,7 +30,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 22
-          source: "dist/."
+          source: "dist/*"
           target: "/home/han/web-cow"
           rm: true  # optional: delete old files before upload
 
