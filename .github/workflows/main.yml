@@ -20,10 +20,10 @@ jobs:
 
       - name: 📦 Install dependencies & build (optional)
         run: |
-          npm ci
-          npm run build:web
+          npm ci --verbose
+          npm run build
           
-      - name: 📤 Copy project files to server (ohne node_modules)
+      - name: 📤 Copy dist files to server
         uses: appleboy/scp-action@v0.1.5
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -32,6 +32,6 @@ jobs:
           port: 22
           source: "dist/."
           target: "/home/han/web-cow"
-          rm: true  # optional: löscht alte Dateien vor Upload
+          rm: true  # optional: delete old files before upload
 
      
