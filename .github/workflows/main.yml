@@ -20,7 +20,7 @@ jobs:
 
       - name: 📦 Install dependencies & build (optional)
         run: |
-          npm ci
+          npm ci --verbose
           npm run build
           
       - name: 📤 Copy dist files to server
