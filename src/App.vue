@@ -59,6 +59,6 @@ body {
 .cow {
   cursor: pointer;
   margin: auto;
-  font-size: clamp(0.4em, 2.5vw, 0.7em);
+  font-size: clamp(0.4em, 2.5vw, 0.5em);
 }
 </style>
