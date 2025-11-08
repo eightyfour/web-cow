@@ -22,6 +22,7 @@ jobs:
         run: |
           npm ci
           npm run build:web
+          
       - name: 📤 Copy project files to server (ohne node_modules)
         uses: appleboy/scp-action@v0.1.5
         with:
