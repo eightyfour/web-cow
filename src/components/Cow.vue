@@ -32,7 +32,7 @@ import { useRoute } from 'vue-router'
 // const eyes = ["-0", "oo", "/\\", "Oo", "XX", "xx"]
 // const tonges = ["  ", "U ", ";;", "  ", "  ", "  "]
 
-function getRandom(a: Record<string, any>): string {
+function getRandom(a: Record<string, any>) {
   return a[Math.floor(Math.random() * a.length - 1 + 0)]
 }
 
@@ -54,12 +54,15 @@ const cows: Record<string, any> = {
   WWW,
 }
 const route = useRoute()
-const mode = ref<string>(route.params.cow?.toString() || '')
+const mode = ref(route.params.cow)
 const cowMotivationMsg = ref('Click me and I motivate you')
 const author = ref('')
 
 const speak = computed(() => {
-  const cowType = mode.value === 'random' ? cows[getRandom(Object.keys(cows))] : cows[mode.value]
+  const cowType =
+    mode.value === 'random'
+      ? cows[getRandom(Object.keys(cows))]
+      : cows[mode.value as keyof typeof cows]
   return say({
     text: cowMotivationMsg.value,
     cow: cowType,
@@ -75,7 +78,7 @@ watch(
 )
 
 function motivate() {
-  const cowMotivation = getRandom((quotes as any).default) as any
+  const cowMotivation = getRandom((quotes as any).default)
   cowMotivationMsg.value = cowMotivation.text
   author.value = cowMotivation.author
 }
