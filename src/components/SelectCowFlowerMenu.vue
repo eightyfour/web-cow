@@ -1,75 +1,69 @@
 <template>
-  <div ref="root" class="flowerMenu">
+  <div @click="onRoot" class="flowerMenu">
     <global-events @click="closeMenu" />
-    <button v-show="!active" v-on:click="open">{{ label || 'choose' }}</button>
-    <div ref="menu" class="menu" :class="active? 'show' : ''">
+    <button v-show="!active" @click="open">{{ label || 'choose' }}</button>
+    <div class="menu" :class="active ? 'show' : ''">
       <div ref="animate" class="menu--item-wrap">
-        <div v-for="cow in cowsToSelect" v-on:click="cowChange(cow)" :key="cow" class="menu--item"><span>{{ cow }}</span></div>
+        <div v-for="cow in cowsToSelect" @click="cowChange(cow)" :key="cow" class="menu--item">
+          <span>{{ cow }}</span>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import { show, hide } from "../lib/navSun"
-import GlobalEvents from "vue-global-events"
+<script setup lang="ts">
+import { show, hide } from '../lib/navSun'
+import { GlobalEvents } from 'vue-global-events'
+import { ref, defineProps } from 'vue'
+const { label } = defineProps<{ label?: string }>()
+const emit = defineEmits<{
+  (e: 'selected', cow: string): void
+}>()
 
 const cowsToSelect = [
-  "random",
-  "HEAD_IN",
-  "BUD_FROGS",
-  "SQUIRREL",
-  "BUNNY",
-  "COWER",
-  "ELEPHANT",
-  "KOALA",
-  "SHEEP",
-  "SMALL",
-  "STEGOSAURUS",
-  "SURGERY",
-  "TELEBEARS",
-  "TUX",
-  "WHALE",
-  "WWW"
+  'random',
+  'BUD_FROGS',
+  'SQUIRREL',
+  'BUNNY',
+  'COWER',
+  'ELEPHANT',
+  'KOALA',
+  'SHEEP',
+  'SMALL',
+  'STEGOSAURUS',
+  'SURGERY',
+  'TELEBEARS',
+  'TUX',
+  'WHALE',
+  'WWW',
 ]
 
-export default {
-  name: "cow",
-  components: {
-    GlobalEvents
-  },
-  props: ["label"],
-  /**
-   * Triggered after template is rendered
-   */
-  mounted() {
-    // stop propagation otherwise the click button doesn't count
-    this.$refs.root.addEventListener("click", function(e) {
-      e.stopPropagation()
-    })
-  },
-  data() {
-    return {
-      active: false,
-      cowsToSelect
-    }
-  },
-  methods: {
-    closeMenu() {
-      hide(this.$refs.animate)
-      this.active = false
-    },
-    open() {
-      this.active = true
-      show(this.$refs.animate)
-    },
-    cowChange(cow) {
-      this.active = false
-      this.$emit("selected", cow)
-      hide(this.$refs.animate)
-    }
-  }
+const active = ref(false)
+const animate = ref<HTMLElement | null>()
+
+function closeMenu() {
+  if (animate.value) hide(animate.value)
+  active.value = false
 }
+
+function open() {
+  active.value = true
+  if (animate.value) show(animate.value)
+}
+
+function cowChange(cow: string) {
+  active.value = false
+  // emit event
+  emit('selected', cow)
+  // root.value?.dispatchEvent(event)
+  if (animate.value) hide(animate.value)
+}
+
+function onRoot(e: Event) {
+  e.stopPropagation()
+}
+
 </script>
 
 <style>
@@ -89,7 +83,9 @@ export default {
   position: absolute;
   bottom: 2em;
   display: block;
-  transition: opacity 500ms 500ms, box-shadow 500ms;
+  transition:
+    opacity 500ms 500ms,
+    box-shadow 500ms;
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
@@ -97,7 +93,9 @@ export default {
 }
 .show.menu {
   box-shadow: 0 0 4em 15em rgba(255, 255, 255, 0.9);
-  transition: opacity 0ms 0ms, box-shadow 500ms;
+  transition:
+    opacity 0ms 0ms,
+    box-shadow 500ms;
   opacity: 1;
 }
 .menu--item-wrap {

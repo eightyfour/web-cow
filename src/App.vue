@@ -1,45 +1,35 @@
 <template>
   <div id="app">
     <section class="cow">
-      <cow :mode="mode"></cow>
+      <router-view />
     </section>
     <select-cow :label="mode" @selected="cowChange"></select-cow>
   </div>
 </template>
 
-<script>
-import SelectCow from "./components/SelectCowFlowerMenu.vue"
-import Cow from "./components/Cow.vue"
+<script setup lang="ts">
+import { ref, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import SelectCow from './components/SelectCowFlowerMenu.vue'
 
-export default {
-  name: "app",
-  components: {
-    Cow,
-    SelectCow
-  },
-  watch: {
-    $route(to) {
-      const selectedCow =
-        to.params.cow && to.params.cow !== "random"
-          ? to.params.cow.toUpperCase()
-          : "random"
-      this.mode = selectedCow
-    }
-  },
-  methods: {
-    cowChange(cow) {
-      this.$router.push({ path: `/${cow}` })
-    }
-  },
-  mounted() {
-    this.mode = this.$route.params.cow || "random"
-  },
-  data() {
-    return {
-      mode: "random"
-    }
-  }
+const mode = ref('random')
+const route = useRoute()
+const router = useRouter()
+
+function cowChange(cow: string) {
+  router.push({ path: `/${cow}` })
 }
+
+watch(
+  () => route.params.cow,
+  (newCow) => {
+    mode.value = newCow && newCow !== 'random' ? String(newCow).toUpperCase() : 'random'
+  },
+)
+
+onMounted(() => {
+  mode.value = (route.params.cow || 'random') as string
+})
 </script>
 
 <style>
@@ -55,7 +45,7 @@ body {
 }
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -69,6 +59,6 @@ body {
 .cow {
   cursor: pointer;
   margin: auto;
-  max-width: 60%;
+  font-size: clamp(0.4em, 2.5vw, 0.7em);
 }
 </style>
